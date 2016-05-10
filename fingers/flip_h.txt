@@ -1,0 +1,12 @@
+252
+378
+105a,19b,130a
+59a,21b,19a,17b,4a,10b,6a,18b,19a,19b,70a
+28a,8b,10a,6b,5a,6b,18a,17b,50a,13b,10a,11b,8a,13b,13a,9b,43a
+11a,3b,7a,6b,10a,7b,6a,10b,7a,11b,8a,9b,16a,16b,3a,7b,3a,22b,8a,7b,7a,7b,6a,7b,7a,8b,8a,9b,7a,8b,6a,7b,20a
+7a,7b,6a,5b,11a,6b,5a,6b,6a,4b,6a,7b,5a,7b,6a,6b,3a,7b,7a,10b,4a,28b,9a,7b,9a,6b,5a,6b,6a,6b,6a,6b,5a,6b,5a,5b,6a,6b,6a,6b,7a,6b,11a
+3a,5b,6a,5b,6a,6b,6a,6b,5a,3b,7a,6b,5a,10b,5a,6b,6a,6b,7a,7b,5a,8b,5a,6b,7a,7b,5a,8b,8a,5b,8a,6b,6a,5b,6a,6b,5a,5b,6a,6b,5a,6b,6a,5b,6a,5b,5a,4b,6a,6b,9a
+6a,5b,5a,5b,4a,3b,6a,5b,7a,5b,5a,4b,5a,5b,5a,5b,6a,4b,6a,5b,6a,6b,6a,4b,6a,5b,6a,5b,6a,10b,13a,6b,2a,8b,14a,4b,6a,5b,6a,6b,6a,5b,7a,5b,6a,4b,7a,4b,7a,5b,8a,3b,6a
+7a,3b,7a,5b,7a,4b,6a,5b,8a,4b,5a,5b,4a,5b,7a,5b,8a,6b,7a,6b,7a,5b,4a,6b,8a,9b,5a,6b,34a,9b,6a,9b,4a,5b,6a,5b,6a,3b,5a,5b,6a,5b,6a,5b,13a
+20a,4b,7a,5b,14a,5b,7a,4b,10a,8b,8a,7b,9a,9b,8a,10b,5a,10b,41a,7b,10a,8b,7a,7b,6a,7b,9a,3b,25a
+40a,24b,28a,16b,15a,45b,19a,5b,2a,5b,11a,5b,49a
