@@ -1,5 +1,6 @@
 import PIL
 
+
 def resize(img):
     size = 800
     if img.size[0] > size:
