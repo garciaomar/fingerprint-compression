@@ -76,7 +76,7 @@ def compare_files(image_size, string, f):
     promedio = 0
     for i in xrange(len(string1)):
         promedio += compare_lines(image_size[0], width, string2[i], string1[i])
-        print promedio
+        print promedio,
     promedio /= 30.0
     return promedio * 100
 
