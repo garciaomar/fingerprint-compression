@@ -1,7 +1,7 @@
 from PIL import Image
 import glob
 import os
-
+import math
 
 def compress(image):
     string = ""
@@ -31,7 +31,7 @@ def compress(image):
             else:
                 count += 1
                 lastpixel = 0
-        string += str(count) + "a" if lastpixel == 255 else "b"
+        string += str(count) + "a" if lastpixel == 255 else str(count) + "b"
         string += "\n"
     return string
 
@@ -59,16 +59,26 @@ def compare(image, directory):
     image = binary_threshold(image)
     string = compress(image)
     msg = ""
+    results = dict()
+    promedios = list()
+
     os.chdir(directory)
     for f in glob.glob("*.txt"):
         file_comparable = open(f, 'r')
-        print f
-        msg += "Porcentaje de similitud con: " + f + \
-               " " + str(min(150, compare_files(image.size, string, file_comparable))) + "\n"
-    return msg
+        #print f
+        image_file, promedio = compare_files(image.size, string, file_comparable)
+        promedios.append(promedio)
+        results[str(promedio)] = image_file
+        msg += f + " : " + str(min(150, promedio)) + "% \n"
+    maximum = max(promedios)
+    filename = results[str(maximum)]
+    higher_match = find_absolute_path(filename)
+    return higher_match, msg
 
 
 def compare_files(image_size, string, f):
+    image_file = f.readline() #skip first line
+    image_file = image_file.split("\n")[0]
     width = int(f.readline())
     int(f.readline())  # skip line
     string1 = f.readlines()
@@ -76,9 +86,9 @@ def compare_files(image_size, string, f):
     promedio = 0
     for i in xrange(len(string1)):
         promedio += compare_lines(image_size[0], width, string2[i], string1[i])
-        print promedio,
+        #print promedio,
     promedio /= 30.0
-    return promedio * 100
+    return image_file, int(promedio * 100)
 
 
 def compare_lines(width1, width2, line1, line2):
@@ -89,7 +99,7 @@ def compare_lines(width1, width2, line1, line2):
         if len(p) > 1:
             vector1.append((suma1 * 1.0 / width1, (suma1*1.0 + int(p[:-1]))/width1, p[-1]))
             suma1 += int(p[:-1])
-    print vector1
+    #print vector1
     vector2 = []
     suma2 = 0
     parse2 = line2.split(",")
@@ -98,13 +108,13 @@ def compare_lines(width1, width2, line1, line2):
         if len(p) > 1:
             vector2.append((suma2 * 1.0 / width2, (suma2*1.0 + int(p[:-1]))/width2, p[-1]))
             suma2 += int(p[:-1])
-    print vector2
+    #print vector2
     vector_shared = []
     for v1 in vector1:
         for v2 in vector2:
             if shared(v1, v2):
                 vector_shared.append(shared_cell(v1, v2))
-    print vector_shared
+    #print vector_shared
 
     return porcentaje(vector_shared, vector1, vector2)
 
@@ -156,3 +166,9 @@ def binary_threshold(image, thresh=128):
 
     image = image.crop((x0, y0, x1, y1))
     return image
+
+def find_absolute_path(name):
+    path_ = "/"
+    for root, dirs, files in os.walk(path_):
+        if name in files:
+            return os.path.join(root, name)

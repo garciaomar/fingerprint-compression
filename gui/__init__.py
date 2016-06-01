@@ -7,6 +7,7 @@ import PIL
 from PIL import Image, ImageTk
 from utils import resize as rz
 from src import fingerprint
+import glob
 
 global_variables = {}
 
@@ -76,32 +77,47 @@ def compress_gui():
     image = fingerprint.binary_threshold(image)
     string = fingerprint.compress(image)
     size = image.size
+    name = global_variables['img_path'].split("/")[-1]
+
     # Save the file in the chosen directory
     indir = "../" + path.dirname(path.realpath(__file__))
     filename = tkFileDialog.asksaveasfilename(filetypes=[('TXT', '.txt')], initialfile='newfile.txt', initialdir=indir)
     if filename:
         output = open(filename, 'w')
+        output.write(name + '\n')
         output.write(str(size[0]) + '\n')
         output.write(str(size[1]) + '\n')
         output.write(string)
         output.close()
-
-def decompress_gui():
-    indir = "../" + path.dirname(path.realpath(__file__))
-    v = tkFileDialog.askopenfile(initialdir=indir)
-    if v:
-        image = fingerprint.decompress(v.name)
-        update_image(image)
+        original_size = path.getsize(global_variables['img_path'])
+        compressed_size = path.getsize(filename)
+        ratio = round(original_size / (compressed_size * 1.0), 2)
+        tkMessageBox.showinfo("", "Radio de compresion obtenido: " + str(ratio))
 
 def compare_gui():
     image = global_variables['working_image']
     indir = "../" + path.dirname(path.realpath(__file__))
     directory = tkFileDialog.askdirectory(initialdir=indir)
     if directory:
-        message = fingerprint.compare(image, directory)
-        tkMessageBox.showinfo("Resultados", message)
-def decompress_main():
-    indir = "../" + path.dirname(path.realpath(__file__))
-    v = tkFileDialog.askopenfile(initialdir=indir)
-    if v:
-        image = fingerprint.decompress(v.name)
+        higher_match, message = fingerprint.compare(image, directory)
+        results_window(higher_match, message)
+
+def results_window(higher_match, message):
+    results_window = tk.Toplevel()
+    results_window.title("Resultados")
+    results_window.resizable(0, 0)
+
+    imageframe = tk.Frame(results_window)
+    tk.Label(imageframe, text="Mejor coincidencia", pady=2, font="arial 14 bold").grid(column=0, row=0)
+    img = Image.open(higher_match)
+    img = rz.resize(img)
+    photo = ImageTk.PhotoImage(img)
+    tk.Label(results_window, image=photo).grid(column=0, row=1)
+    imageframe.grid(column=0, row=0)
+
+    resultsframe = tk.Frame(results_window)
+    tk.Label(resultsframe, text="Otros resultados:", pady=2, font="arial 14 bold").grid(column=0, row=0)
+    tk.Label(resultsframe, text=message, justify="left", padx=5, font="arial 12").grid(column=0, row=1)
+    resultsframe.grid(column=1, row=1)
+
+    results_window.mainloop()
