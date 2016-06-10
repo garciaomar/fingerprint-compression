@@ -65,7 +65,6 @@ def compare(image, directory):
     os.chdir(directory)
     for f in glob.glob("*.txt"):
         file_comparable = open(f, 'r')
-        #print f
         image_file, promedio = compare_files(image.size, string, file_comparable)
         promedios.append(promedio)
         results[str(promedio)] = image_file
@@ -86,7 +85,6 @@ def compare_files(image_size, string, f):
     promedio = 0
     for i in xrange(len(string1)):
         promedio += compare_lines(image_size[0], width, string2[i], string1[i])
-        #print promedio,
     promedio /= 30.0
     return image_file, int(promedio * 100)
 
@@ -99,7 +97,7 @@ def compare_lines(width1, width2, line1, line2):
         if len(p) > 1:
             vector1.append((suma1 * 1.0 / width1, (suma1*1.0 + int(p[:-1]))/width1, p[-1]))
             suma1 += int(p[:-1])
-    #print vector1
+
     vector2 = []
     suma2 = 0
     parse2 = line2.split(",")
@@ -108,13 +106,12 @@ def compare_lines(width1, width2, line1, line2):
         if len(p) > 1:
             vector2.append((suma2 * 1.0 / width2, (suma2*1.0 + int(p[:-1]))/width2, p[-1]))
             suma2 += int(p[:-1])
-    #print vector2
+
     vector_shared = []
     for v1 in vector1:
         for v2 in vector2:
             if shared(v1, v2):
                 vector_shared.append(shared_cell(v1, v2))
-    #print vector_shared
 
     return porcentaje(vector_shared, vector1, vector2)
 
@@ -123,8 +120,10 @@ def porcentaje(c, v1, v2):
     suma = 0
     for t in c:
         suma += t[1] - t[0]
-    t = (min(len(v1[:len(v1)/2]), len(v2[:len(v2)/2])) * 1.0 / max(len(v1[:len(v1)/2]), len(v2[:len(v2)/2])) * 1.0) / 2.0
-    t += (min(len(v1[len(v1)/2:len(v1)]), len(v2[len(v2)/2:len(v2)])) * 1.0 / max(len(v1[len(v1)/2:len(v1)]), len(v2[len(v2)/2:len(v2)])) * 1.0) / 2.0
+    x1 = max(len(v1[:len(v1)/2]), len(v2[:len(v2)/2]))
+    t = (min(len(v1[:len(v1)/2]), len(v2[:len(v2)/2])) * 1.0 /  x1 if x1 > 0 else 1 * 1.0) / 2.0
+    x2 = max(len(v1[len(v1)/2:len(v1)]), len(v2[len(v2)/2:len(v2)]))
+    t += (min(len(v1[len(v1)/2:len(v1)]), len(v2[len(v2)/2:len(v2)])) * 1.0 /  x2 if x2 > 0 else 1 * 1.0) / 2.0
     suma *= (t ** 3)
     return suma if suma <= 1 else 1
 

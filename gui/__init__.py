@@ -2,6 +2,7 @@ import Tkinter as tk
 import ttk
 import tkFileDialog
 import tkMessageBox
+import os
 from os import path
 import PIL
 from PIL import Image, ImageTk
@@ -52,15 +53,15 @@ def main_window():
     main_gui_window.config(menu=menu)
     # -- Main Submenu -- #
     mainMenu = tk.Menu(menu)
-    mainMenu.add_command(label="Open file", command=openfile)
+    mainMenu.add_command(label="Abrir archivo", command=openfile)
     mainMenu.add_separator()
-    mainMenu.add_command(label="Exit", command=main_gui_window.destroy)
-    menu.add_cascade(menu=mainMenu, label="File")
+    mainMenu.add_command(label="Salir", command=main_gui_window.destroy)
+    menu.add_cascade(menu=mainMenu, label="Archivo")
     # -- Options menu -- #
     optionsMenu = tk.Menu(menu)
-    optionsMenu.add_command(label="Compress", command=compress_gui)
-    optionsMenu.add_command(label="Compare fingerprints", command=compare_gui)
-    menu.add_cascade(menu=optionsMenu, label="Options")
+    optionsMenu.add_command(label="Comprimir", command=compress_gui)
+    optionsMenu.add_command(label="Comparar huellas", command=compare_gui)
+    menu.add_cascade(menu=optionsMenu, label="Opciones")
 
 def openfile():
     global_variables['main_window'].destroy()
